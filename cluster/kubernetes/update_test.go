@@ -69,27 +69,27 @@ spec:
       imagePullSecrets:
       - name: quay-secret
       containers:
-        - name: pr-assigner
-          image: quay.io/weaveworks/pr-assigner:master-6f5e816
-          imagePullPolicy: IfNotPresent
-          args:
-            - --conf_path=/config/pr-assigner.json
-          env:
-            - name: GITHUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: pr-assigner
-                  key: githubtoken
-          volumeMounts:
-            - name: config-volume
-              mountPath: /config
-      volumes:
+      - name: pr-assigner
+        image: quay.io/weaveworks/pr-assigner:master-6f5e816
+        imagePullPolicy: IfNotPresent
+        args:
+        - --conf_path=/config/pr-assigner.json
+        env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: pr-assigner
+              key: githubtoken
+        volumeMounts:
         - name: config-volume
-          configMap:
-            name: pr-assigner
-            items:
-              - key: conffile
-                path: pr-assigner.json
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: pr-assigner
+          items:
+          - key: conffile
+            path: pr-assigner.json
 `
 
 const case1resource = "extra:deployment/pr-assigner"
@@ -113,27 +113,27 @@ spec:
       imagePullSecrets:
       - name: quay-secret
       containers:
-        - name: pr-assigner
-          image: quay.io/weaveworks/pr-assigner:master-1234567
-          imagePullPolicy: IfNotPresent
-          args:
-            - --conf_path=/config/pr-assigner.json
-          env:
-            - name: GITHUB_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: pr-assigner
-                  key: githubtoken
-          volumeMounts:
-            - name: config-volume
-              mountPath: /config
-      volumes:
+      - name: pr-assigner
+        image: quay.io/weaveworks/pr-assigner:master-1234567
+        imagePullPolicy: IfNotPresent
+        args:
+        - --conf_path=/config/pr-assigner.json
+        env:
+        - name: GITHUB_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: pr-assigner
+              key: githubtoken
+        volumeMounts:
         - name: config-volume
-          configMap:
-            name: pr-assigner
-            items:
-              - key: conffile
-                path: pr-assigner.json
+          mountPath: /config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: pr-assigner
+          items:
+          - key: conffile
+            path: pr-assigner.json
 `
 
 // Version looks like a number
@@ -148,7 +148,6 @@ spec:
     metadata:
       labels:
         name: fluxy
-        version: master-a000001
     spec:
       volumes:
       - name: key
@@ -193,7 +192,6 @@ spec:
     metadata:
       labels:
         name: fluxy
-        version: "1234567"
     spec:
       volumes:
       - name: key
@@ -229,7 +227,7 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
  namespace: monitoring
- name: grafana # comment, and only one space
+ name: grafana # comment, and only one space indent
 spec:
   replicas: 1
   template:
@@ -261,8 +259,8 @@ const case3out = `---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
- namespace: monitoring
- name: grafana # comment, and only one space
+  namespace: monitoring
+  name: grafana # comment, and only one space indent
 spec:
   replicas: 1
   template:
@@ -312,7 +310,7 @@ spec:
           runAsUser: 10001
           capabilities:
             drop:
-              - all
+            - all
           readOnlyRootFilesystem: true
 `
 
@@ -348,7 +346,7 @@ spec:
           runAsUser: 10001
           capabilities:
             drop:
-              - all
+            - all
           readOnlyRootFilesystem: true
 `
 
@@ -438,7 +436,7 @@ spec:
         - containerPort: 80
         image: nginx:1.10-alpine
         name: nginx
-      - image: nginx:1.10-alpine # testing comments, and this image is on the first line.
+      - image: nginx:1.10-alpine    # testing comments, and this image is on the first line.
         name: nginx2
 `
 
@@ -514,7 +512,7 @@ spec:
       labels:
         name: authfe
       annotations:
-        prometheus.io.port: "8080"
+        prometheus.io.port: '8080'
     spec:
       # blank comment spacers in the following
       containers:
