@@ -14,20 +14,9 @@ spec:
     spec:
       serviceAccount: flux
       volumes:
-      - name: plugins
-        emptyDir: {}
       - name: git-key
         secret:
           secretName: flux-git-deploy
-      initContainers:
-      - name: kubeyaml
-        image: squaremo/kubeyaml:latest
-        imagePullPolicy: IfNotPresent
-        volumeMounts:
-        - name: plugins
-          mountPath: /plugins
-        command: ["cp"]
-        args: ["-R", "/usr/lib/kubeyaml", "/plugins/"]
       containers:
       - name: flux
         # There are no ":latest" images for flux. Find the most recent
@@ -35,16 +24,11 @@ spec:
         # and replace the tag here.
         image: quay.io/weaveworks/flux:1.2.3
         imagePullPolicy: IfNotPresent
-        env:
-        - name: PLUGINS_PATH
-          value: /home/flux/plugins
         ports:
         - containerPort: 3030 # informational
         volumeMounts:
         - name: git-key
           mountPath: /etc/fluxd/ssh
-        - name: plugins
-          mountPath: /home/flux/plugins
         args:
 
         # if you deployed memcached in a different namespace to flux,
